@@ -11,17 +11,27 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import LottieView from "lottie-react-native";
 import { theme } from "../utils/theme";
-import { wp, hp } from "../utils/responsive";
+import {
+  wp,
+  hp,
+  getLottieSize,
+  getAnimationMarginTop,
+} from "../utils/responsive";
 import CustomButton from "../components/CustomButton";
 
 const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 
-export default function WelcomeScreen() {
+interface WelcomeScreenProps {
+  onNavigate: (screen: string) => void;
+}
+
+export default function WelcomeScreen({ onNavigate }: WelcomeScreenProps) {
   const [acceptedTerms, setAcceptedTerms] = useState(false);
 
   const handleGetStarted = () => {
-    // Navegar para próxima tela
-    console.log("Começar");
+    if (acceptedTerms) {
+      onNavigate("Security");
+    }
   };
 
   const handleImportWallet = () => {
@@ -62,7 +72,7 @@ export default function WelcomeScreen() {
           Sua carteira de criptomoedas segura{"\n"}e fácil de usar
         </Text>
 
-        {/* Checkbox de termos - 24px acima do botão */}
+        {/* Checkbox de termos - 8px acima do botão */}
         <View style={styles.termsContainer}>
           <TouchableOpacity
             style={styles.termsCheckbox}
@@ -119,15 +129,18 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     paddingHorizontal: theme.spacing.lg,
+    alignItems: "center", // Centralizar todo o conteúdo
+    paddingBottom: hp(400), // MUITO mais espaço para iOS - iPhone precisa de mais
   },
-  // Animação - 140px do topo
+
+  // Animação - responsiva
   animationContainer: {
-    marginTop: hp(140),
+    marginTop: getAnimationMarginTop(),
     alignItems: "center",
   },
   lottieAnimation: {
-    width: wp(250),
-    height: wp(250),
+    width: getLottieSize(),
+    height: getLottieSize(),
   },
   // Título - 32px da animação
   title: {
@@ -149,13 +162,14 @@ const styles = StyleSheet.create({
     marginTop: hp(8),
     lineHeight: hp(24),
   },
-  // Checkbox de termos - 8px acima do botão "Começar"
+  // Checkbox de termos - posicionamento seguro para iOS
   termsContainer: {
     position: "absolute",
-    bottom: hp(165 + 48 + 16), // 165 (botão) + 48 (altura) + 8 (espaço) = 221px
+    bottom: hp(165 + 48 + 32), // Mais espaço para iOS
     left: theme.spacing.lg,
     right: theme.spacing.lg,
-    alignItems: "center", // Centralizar horizontalmente
+    alignItems: "center",
+    zIndex: 1, // Garantir que fica acima
   },
   termsCheckbox: {
     flexDirection: "row",

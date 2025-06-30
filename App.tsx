@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   useFonts,
   Inter_500Medium,
@@ -11,11 +11,14 @@ import { StyleSheet } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { theme } from "./src/utils/theme";
 import WelcomeScreen from "./src/screens/WelcomeScreen";
+import SecurityScreen from "./src/screens/SecurityScreen";
 
 // Previne que a splash screen desapareça automaticamente
 SplashScreen.preventAutoHideAsync();
 
 export default function App() {
+  const [currentScreen, setCurrentScreen] = useState("Welcome");
+
   let [fontsLoaded] = useFonts({
     Inter_500Medium,
     Inter_700Bold,
@@ -31,10 +34,21 @@ export default function App() {
     return null;
   }
 
+  const renderScreen = () => {
+    switch (currentScreen) {
+      case "Welcome":
+        return <WelcomeScreen onNavigate={setCurrentScreen} />;
+      case "Security":
+        return <SecurityScreen onNavigate={setCurrentScreen} />;
+      default:
+        return <WelcomeScreen onNavigate={setCurrentScreen} />;
+    }
+  };
+
   return (
     <SafeAreaProvider style={styles.container}>
       <StatusBar style="light" backgroundColor={theme.colors.background} />
-      <WelcomeScreen />
+      {renderScreen()}
     </SafeAreaProvider>
   );
 }

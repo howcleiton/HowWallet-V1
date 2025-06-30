@@ -37,3 +37,30 @@ export const spacing = {
   xl: wp(32),
   xxl: wp(48)
 };
+
+// Função para Lottie responsivo - Balanceada para manter fidelidade
+export const getLottieSize = () => {
+  // Tamanhos baseados no Figma (250px base)
+  if (SCREEN_HEIGHT < 700) { // iPhones muito pequenos (SE)
+    return wp(200);
+  } else if (SCREEN_HEIGHT < 800) { // iPhone 12, 13, 14
+    return wp(220);
+  } else if (SCREEN_HEIGHT < 900) { // iPhone Plus, Pro Max
+    return wp(240);
+  } else { // Telas grandes e Android
+    return wp(250);
+  }
+};
+
+// Margem top responsiva - Reduzida apenas o necessário
+export const getAnimationMarginTop = () => {
+  if (SCREEN_HEIGHT < 700) { // iPhones muito pequenos
+    return hp(100);
+  } else if (SCREEN_HEIGHT < 800) { // iPhone 12, 13, 14
+    return hp(120);
+  } else if (SCREEN_HEIGHT < 900) { // iPhone Plus, Pro Max
+    return hp(130);
+  } else { // Telas grandes
+    return hp(140);
+  }
+};
