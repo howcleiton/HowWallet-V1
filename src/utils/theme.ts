@@ -4,7 +4,7 @@ export const theme = {
   colors: {
     // Cores do seu Figma
     primary: '#D47EAE',
-    secondary: '1',
+    secondary: '#168BC2',
     
     // Backgrounds
     background: '#1F1F1F',

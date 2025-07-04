@@ -7,7 +7,6 @@ import { RootStackParamList } from './types';
 import SplashScreen from '../screens/SplashScreen';
 import WelcomeScreen from '../screens/WelcomeScreen';
 import SecurityScreen from '../screens/SecurityScreen';
-import EmailScreen from '../screens/EmailScreen';
 import HomeScreen from '../screens/HomeScreen';
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -39,7 +38,6 @@ export default function AppNavigator() {
         <Stack.Screen name="Splash" component={SplashScreen} />
         <Stack.Screen name="Welcome" component={WelcomeScreen} />
         <Stack.Screen name="Security" component={SecurityScreen} />
-        <Stack.Screen name="Email" component={EmailScreen} />
         <Stack.Screen name="Home" component={HomeScreen} />
       </Stack.Navigator>
     </NavigationContainer>

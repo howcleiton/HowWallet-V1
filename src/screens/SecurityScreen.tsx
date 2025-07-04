@@ -41,13 +41,15 @@ export default function SecurityScreen({ navigation }: SecurityScreenProps) {
   const handleApplePress = () => {
     console.log("Apple login selected");
     setIsEmailBottomSheetVisible(false);
-    // Aqui você pode adicionar a lógica para login com Apple
+    // Navegar diretamente para Home após login com Apple
+    navigation.navigate("Home");
   };
 
   const handleGooglePress = () => {
     console.log("Google login selected");
     setIsEmailBottomSheetVisible(false);
-    // Aqui você pode adicionar a lógica para login com Google
+    // Navegar diretamente para Home após login com Google
+    navigation.navigate("Home");
   };
 
   return (
