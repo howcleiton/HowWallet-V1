@@ -4,33 +4,39 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
-  Dimensions,
   StatusBar,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import LottieView from "lottie-react-native";
+import { StackNavigationProp } from "@react-navigation/stack";
 import { theme } from "../utils/theme";
 import {
   wp,
   hp,
+  fp,
   getLottieSize,
   getAnimationMarginTop,
 } from "../utils/responsive";
-import CustomButton from "../components/CustomButton";
+import { RootStackParamList } from "../navigation/types";
+import PrimaryButton from "../components/PrimaryButton";
+import SecondaryButton from "../components/SecondaryButton";
 
-const { height: SCREEN_HEIGHT } = Dimensions.get("window");
+type WelcomeScreenNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  "Welcome"
+>;
 
 interface WelcomeScreenProps {
-  onNavigate: (screen: string) => void;
+  navigation: WelcomeScreenNavigationProp;
 }
 
-export default function WelcomeScreen({ onNavigate }: WelcomeScreenProps) {
+export default function WelcomeScreen({ navigation }: WelcomeScreenProps) {
   const [acceptedTerms, setAcceptedTerms] = useState(false);
 
   const handleGetStarted = () => {
     if (acceptedTerms) {
-      onNavigate("Security");
+      navigation.navigate("Security");
     }
   };
 
@@ -45,92 +51,92 @@ export default function WelcomeScreen({ onNavigate }: WelcomeScreenProps) {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar
-        barStyle="light-content"
-        backgroundColor={theme.colors.background}
-      />
+    <View style={styles.backgroundContainer}>
+      <StatusBar barStyle="light-content" translucent />
+      <SafeAreaView style={styles.container}>
+        <View style={styles.content}>
+          {/* Lottie Animation - 140px do topo */}
+          <View style={styles.animationContainer}>
+            <LottieView
+              source={require("../../assets/welcome-page.json")}
+              autoPlay
+              loop
+              style={styles.lottieAnimation}
+            />
+          </View>
 
-      <View style={styles.content}>
-        {/* Lottie Animation - 140px do topo */}
-        <View style={styles.animationContainer}>
-          <LottieView
-            source={require("../../assets/welcome-page.json")}
-            autoPlay
-            loop
-            style={styles.lottieAnimation}
+          {/* Título - 32px da animação */}
+          <Text style={styles.title}>
+            Bem-vindo à <Text style={styles.titleAccent}>How Wallet</Text>
+          </Text>
+
+          {/* Subtítulo - 8px do título */}
+          <Text style={styles.subtitle}>
+            Sua carteira de criptomoedas segura{"\n"}e fácil de usar
+          </Text>
+
+          {/* Checkbox de termos - 8px acima do botão */}
+          <View style={styles.termsContainer}>
+            <TouchableOpacity
+              style={styles.termsCheckbox}
+              onPress={() => setAcceptedTerms(!acceptedTerms)}
+              activeOpacity={0.7}
+            >
+              <View
+                style={[
+                  styles.checkbox,
+                  acceptedTerms && styles.checkboxChecked,
+                ]}
+              >
+                {acceptedTerms && (
+                  <Ionicons
+                    name="checkmark"
+                    size={wp(14)}
+                    color={theme.colors.background}
+                  />
+                )}
+              </View>
+              <Text style={styles.termsText}>
+                Aceito os{" "}
+                <Text style={styles.termsLink} onPress={handleTermsPress}>
+                  termos de serviço
+                </Text>
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        {/* Botões reutilizáveis */}
+        <View style={styles.buttonsContainer}>
+          <PrimaryButton
+            text="Começar"
+            onPress={handleGetStarted}
+            disabled={!acceptedTerms}
+          />
+
+          <SecondaryButton
+            text="Importar Carteira Existente"
+            onPress={handleImportWallet}
           />
         </View>
-
-        {/* Título - 32px da animação */}
-        <Text style={styles.title}>
-          Bem-vindo à How<Text style={styles.titleAccent}>Wallet</Text>
-        </Text>
-
-        {/* Subtítulo - 8px do título */}
-        <Text style={styles.subtitle}>
-          Sua carteira de criptomoedas segura{"\n"}e fácil de usar
-        </Text>
-
-        {/* Checkbox de termos - 8px acima do botão */}
-        <View style={styles.termsContainer}>
-          <TouchableOpacity
-            style={styles.termsCheckbox}
-            onPress={() => setAcceptedTerms(!acceptedTerms)}
-            activeOpacity={0.7}
-          >
-            <View
-              style={[styles.checkbox, acceptedTerms && styles.checkboxChecked]}
-            >
-              {acceptedTerms && (
-                <Ionicons
-                  name="checkmark"
-                  size={wp(14)}
-                  color={theme.colors.background}
-                />
-              )}
-            </View>
-            <Text style={styles.termsText}>
-              Aceito os{" "}
-              <Text style={styles.termsLink} onPress={handleTermsPress}>
-                termos de serviço
-              </Text>
-            </Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-
-      {/* Botões reutilizáveis */}
-      <View style={styles.buttonsContainer}>
-        <CustomButton
-          text="Começar"
-          onPress={handleGetStarted}
-          disabled={!acceptedTerms}
-          variant="primary"
-          position="button1"
-        />
-
-        <CustomButton
-          text="Importar Carteira Existente"
-          onPress={handleImportWallet}
-          variant="secondary"
-          position="button2"
-        />
-      </View>
-    </SafeAreaView>
+      </SafeAreaView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  backgroundContainer: {
     flex: 1,
     backgroundColor: theme.colors.background,
+  },
+  container: {
+    flex: 1,
   },
   content: {
     flex: 1,
     paddingHorizontal: theme.spacing.lg,
     alignItems: "center", // Centralizar todo o conteúdo
-    paddingBottom: hp(400), // MUITO mais espaço para iOS - iPhone precisa de mais
+    paddingBottom: theme.layout.contentPaddingBottom, // Espaço seguro para botões
   },
 
   // Animação - responsiva
@@ -144,28 +150,24 @@ const styles = StyleSheet.create({
   },
   // Título - 32px da animação
   title: {
-    fontSize: hp(30),
-    fontFamily: "Inter_700Bold",
-    color: theme.colors.text,
+    ...theme.typography.hero,
     textAlign: "center",
-    marginTop: hp(24),
+    marginTop: theme.spacing.lg,
   },
   titleAccent: {
     color: theme.colors.primary,
   },
   // Subtítulo - 8px do título
   subtitle: {
-    fontSize: hp(18),
-    fontFamily: "Inter_500Medium",
-    color: theme.colors.text,
+    ...theme.typography.body,
     textAlign: "center",
-    marginTop: hp(8),
-    lineHeight: hp(24),
+    marginTop: theme.spacing.sm,
+    lineHeight: theme.spacing.lg,
   },
-  // Checkbox de termos - posicionamento seguro para iOS
+  // Checkbox de termos - posicionamento responsivo
   termsContainer: {
     position: "absolute",
-    bottom: hp(165 + 48 + 32), // Mais espaço para iOS
+    bottom: hp(172), // Posição entre os botões: 100px + 48px + 12px + 12px
     left: theme.spacing.lg,
     right: theme.spacing.lg,
     alignItems: "center",
@@ -191,11 +193,9 @@ const styles = StyleSheet.create({
     borderColor: theme.colors.primary,
   },
   termsText: {
-    fontSize: hp(18),
-    fontFamily: "Inter_500Medium",
-    color: theme.colors.text,
+    ...theme.typography.body,
     textAlign: "center",
-    lineHeight: hp(20), // Melhor alinhamento vertical
+    lineHeight: fp(20), // Melhor alinhamento vertical
   },
   termsLink: {
     color: theme.colors.primary,

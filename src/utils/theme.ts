@@ -4,7 +4,7 @@ export const theme = {
   colors: {
     // Cores do seu Figma
     primary: '#D47EAE',
-    secondary: '#168BC2',
+    secondary: '1',
     
     // Backgrounds
     background: '#1F1F1F',
@@ -44,6 +44,17 @@ export const theme = {
     xxl: wp(48),
   },
   
+  // Layout específico para botões
+  layout: {
+    primaryButtonBottom: hp(100), // Posição do botão primário
+    secondaryButtonBottom: hp(40), // Posição do botão secundário
+    buttonHeight: hp(48), // Altura do botão
+    buttonSpacing: hp(12), // Espaçamento entre botões
+    minContentSpacing: hp(12), // Espaçamento mínimo do conteúdo
+    // Espaçamento total necessário: 100 + 48 + 12 = 160
+    contentPaddingBottom: hp(160),
+  },
+  
   fontSize: {
     xs: fp(12),
     sm: fp(14),
@@ -63,6 +74,14 @@ export const theme = {
 
   // Tipografia do seu Figma
   typography: {
+    // Título principal - Inter Bold 30px (Welcome Screen)
+    hero: {
+      fontSize: fp(30),
+      fontWeight: '700' as const,
+      color: '#FFFFFF',
+      fontFamily: 'Inter_700Bold',
+    },
+    
     // Títulos - Inter Bold 24px
     title: {
       fontSize: fp(24),
@@ -93,6 +112,14 @@ export const theme = {
       fontWeight: '500' as const,
       color: '#FFFFFF',
       fontFamily: 'Inter_500Medium',
+    },
+    
+    // Botões - Inter Bold 18px
+    button: {
+      fontSize: fp(18),
+      fontWeight: '700' as const,
+      color: '#FFFFFF',
+      fontFamily: 'Inter_700Bold',
     },
   },
 };

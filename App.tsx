@@ -1,24 +1,20 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import {
   useFonts,
   Inter_500Medium,
   Inter_700Bold,
 } from "@expo-google-fonts/inter";
 import * as SplashScreen from "expo-splash-screen";
-import { useEffect } from "react";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { theme } from "./src/utils/theme";
-import WelcomeScreen from "./src/screens/WelcomeScreen";
-import SecurityScreen from "./src/screens/SecurityScreen";
+import AppNavigator from "./src/navigation/AppNavigator";
 
-// Previne que a splash screen desapareça automaticamente
+// Previne que a splash screen nativa desapareça automaticamente
 SplashScreen.preventAutoHideAsync();
 
 export default function App() {
-  const [currentScreen, setCurrentScreen] = useState("Welcome");
-
   let [fontsLoaded] = useFonts({
     Inter_500Medium,
     Inter_700Bold,
@@ -26,6 +22,7 @@ export default function App() {
 
   useEffect(() => {
     if (fontsLoaded) {
+      // Esconde a splash screen nativa imediatamente para mostrar nossa splash personalizada
       SplashScreen.hideAsync();
     }
   }, [fontsLoaded]);
@@ -34,21 +31,10 @@ export default function App() {
     return null;
   }
 
-  const renderScreen = () => {
-    switch (currentScreen) {
-      case "Welcome":
-        return <WelcomeScreen onNavigate={setCurrentScreen} />;
-      case "Security":
-        return <SecurityScreen onNavigate={setCurrentScreen} />;
-      default:
-        return <WelcomeScreen onNavigate={setCurrentScreen} />;
-    }
-  };
-
   return (
     <SafeAreaProvider style={styles.container}>
-      <StatusBar style="light" backgroundColor={theme.colors.background} />
-      {renderScreen()}
+      <StatusBar style="light" translucent />
+      <AppNavigator />
     </SafeAreaProvider>
   );
 }
