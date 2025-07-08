@@ -13,14 +13,20 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.howcleiton.HowWallet"
     },
     "android": {
+      "package": "com.howcleiton.HowWallet",
+      "versionCode": 1,
+      "permissions": [
+        "android.permission.CAMERA"
+      ],
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdge": true
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -29,6 +35,11 @@
       "expo-barcode-scanner",
       "expo-font",
       "expo-dev-client"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "4db55829-7265-4ca6-9766-247927b01651"
+      }
+    }
   }
 }
