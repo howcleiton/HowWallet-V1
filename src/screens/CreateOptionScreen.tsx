@@ -2,26 +2,29 @@ import React, { useState } from "react";
 import { View, Text, StyleSheet, StatusBar } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import LottieView from "lottie-react-native";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { theme } from "../utils/theme";
 import { wp, hp, safeWp, isSmallScreen } from "../utils/responsive";
 import PrimaryButton from "../components/PrimaryButton";
 import SecondaryButton from "../components/SecondaryButton";
 import BackButton from "../components/BackButton";
 import AuthModal from "../components/AuthModal";
+import { RootStackParamList } from "../navigation/AppNavigator";
 
-interface CreateOptionScreenProps {
-  onNavigateBack: () => void;
-}
+type CreateOptionScreenProps = NativeStackScreenProps<
+  RootStackParamList,
+  "CreateOption"
+>;
 
 export default function CreateOptionScreen({
-  onNavigateBack,
+  navigation,
 }: CreateOptionScreenProps) {
   const [showAuthModal, setShowAuthModal] = useState(false);
 
   const handleBack = () => {
     // Navigate back to previous screen
     console.log("Voltando para WelcomeScreen");
-    onNavigateBack();
+    navigation.goBack();
   };
 
   const handleContinueWithEmail = () => {

@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import LottieView from "lottie-react-native";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { theme } from "../utils/theme";
 import {
   wp,
@@ -21,22 +22,19 @@ import {
 } from "../utils/responsive";
 import PrimaryButton from "../components/PrimaryButton";
 import SecondaryButton from "../components/SecondaryButton";
+import { RootStackParamList } from "../navigation/AppNavigator";
 
 const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 
-interface WelcomeScreenProps {
-  onNavigateToCreateOption: () => void;
-}
+type WelcomeScreenProps = NativeStackScreenProps<RootStackParamList, "Welcome">;
 
-export default function WelcomeScreen({
-  onNavigateToCreateOption,
-}: WelcomeScreenProps) {
+export default function WelcomeScreen({ navigation }: WelcomeScreenProps) {
   const [acceptedTerms, setAcceptedTerms] = useState(false);
 
   const handleGetStarted = () => {
     // Navigate to CreateOptionScreen
     console.log("Navegando para CreateOptionScreen");
-    onNavigateToCreateOption();
+    navigation.navigate("CreateOption");
   };
 
   const handleImportWallet = () => {
