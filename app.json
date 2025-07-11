@@ -20,10 +20,20 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "com.howcleiton.HOWWALLET"
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "81cfa4b4-1494-43d9-acda-5197c3f9e79c"
+      }
+    },
+    "owner": "howcleiton",
+    "plugins": [
+      "expo-font"
+    ]
   }
 }
