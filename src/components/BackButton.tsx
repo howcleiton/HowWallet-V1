@@ -17,7 +17,7 @@ export default function BackButton({ onPress }: BackButtonProps) {
     >
       <Ionicons
         name="arrow-back-circle-outline"
-        size={wp(24)}
+        size={wp(32)}
         color={theme.colors.primary}
       />
     </TouchableOpacity>

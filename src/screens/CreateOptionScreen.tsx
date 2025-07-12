@@ -34,8 +34,9 @@ export default function CreateOptionScreen({
   };
 
   const handleCreateWallet = () => {
-    // Navigate to create wallet flow
-    console.log("Criar uma carteira");
+    // Navigate to seed phrase screen
+    console.log("Criar uma carteira - navegando para SeedPhrase");
+    navigation.navigate("SeedPhrase");
   };
 
   const handleCloseAuthModal = () => {
