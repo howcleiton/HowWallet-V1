@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import LottieView from "lottie-react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { theme } from "../utils/theme";
 import {
@@ -19,6 +20,8 @@ import {
   isSmallScreen,
   hasVerticalSpace,
   getAdaptiveSpacing,
+  getSafeButtonContainerHeight,
+  getSafeBottomSpacing,
 } from "../utils/responsive";
 import PrimaryButton from "../components/PrimaryButton";
 import SecondaryButton from "../components/SecondaryButton";
@@ -30,6 +33,7 @@ type WelcomeScreenProps = NativeStackScreenProps<RootStackParamList, "Welcome">;
 
 export default function WelcomeScreen({ navigation }: WelcomeScreenProps) {
   const [acceptedTerms, setAcceptedTerms] = useState(false);
+  const insets = useSafeAreaInsets();
 
   const handleGetStarted = () => {
     // Navigate to CreateOptionScreen
@@ -78,9 +82,19 @@ export default function WelcomeScreen({ navigation }: WelcomeScreenProps) {
       </View>
 
       {/* Botões reutilizáveis */}
-      <View style={styles.buttonsContainer}>
+      <View
+        style={[
+          styles.buttonsContainer,
+          { minHeight: getSafeButtonContainerHeight(insets.bottom) },
+        ]}
+      >
         {/* Checkbox de termos - 24px acima do botão */}
-        <View style={styles.termsContainer}>
+        <View
+          style={[
+            styles.termsContainer,
+            { bottom: getSafeBottomSpacing(hp(160), insets.bottom) },
+          ]}
+        >
           <TouchableOpacity
             style={styles.termsCheckbox}
             onPress={() => setAcceptedTerms(!acceptedTerms)}
@@ -169,7 +183,6 @@ const styles = StyleSheet.create({
   // Checkbox de termos - 8px acima do botão primário (que está a 104px do bottom)
   termsContainer: {
     position: "absolute",
-    bottom: hp(160), // 104px (botão) + 48px (altura do botão) + 8px (espaçamento) = 160px
     left: 0,
     right: 0,
     alignItems: "center",
@@ -209,9 +222,8 @@ const styles = StyleSheet.create({
     fontFamily: "Inter_700Bold",
     textDecorationLine: "underline",
   },
-  // Container dos botões - altura ajustada para os novos espaçamentos
+  // Container dos botões - altura ajustada para os novos espaçamentos com safe area
   buttonsContainer: {
     position: "relative",
-    minHeight: hp(184), // 40px (bottom) + 48px (button) + 16px (spacing) + 48px (button) + 8px (spacing) + 24px (checkbox) = 184px
   },
 });

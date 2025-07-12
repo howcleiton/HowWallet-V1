@@ -66,3 +66,14 @@ export const spacing = {
   xl: getAdaptiveSpacing(wp(32)),
   xxl: getAdaptiveSpacing(wp(48))
 };
+
+// Função para calcular posicionamento seguro com safe area insets
+export const getSafeBottomSpacing = (baseSpacing: number, bottomInset: number): number => {
+  return baseSpacing + bottomInset;
+};
+
+// Função para calcular altura mínima do container de botões com safe area
+export const getSafeButtonContainerHeight = (bottomInset: number): number => {
+  const baseHeight = hp(184); // Altura base do container de botões
+  return baseHeight + bottomInset;
+};

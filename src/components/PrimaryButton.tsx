@@ -1,8 +1,16 @@
 import React from "react";
 import { TouchableOpacity, Text, StyleSheet } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { theme } from "../utils/theme";
-import { hp, wp, safeWp, safeHp, isSmallScreen } from "../utils/responsive";
+import {
+  hp,
+  wp,
+  safeWp,
+  safeHp,
+  isSmallScreen,
+  getSafeBottomSpacing,
+} from "../utils/responsive";
 
 interface PrimaryButtonProps {
   text: string;
@@ -17,14 +25,31 @@ export default function PrimaryButton({
   disabled = false,
   position = "button1",
 }: PrimaryButtonProps) {
+  const insets = useSafeAreaInsets();
+
   const getButtonStyle = () => {
-    let buttonStyle;
+    let baseBottomSpacing;
 
     if (position === "button1") {
-      buttonStyle = styles.button1Position;
+      baseBottomSpacing = hp(104); // 40px (bottom) + 48px (button height) + 16px (spacing) = 104px
     } else {
-      buttonStyle = styles.button2Position;
+      baseBottomSpacing = hp(40); // Exatamente 40px do bottom
     }
+
+    const safeBottomSpacing = getSafeBottomSpacing(
+      baseBottomSpacing,
+      insets.bottom
+    );
+
+    const buttonStyle = {
+      position: "absolute" as const,
+      left: 0,
+      right: 0,
+      bottom: safeBottomSpacing,
+      marginHorizontal: theme.spacing.lg,
+      height: safeHp(48, 44, 52),
+      borderRadius: theme.borderRadius.md,
+    };
 
     if (disabled) {
       return [buttonStyle, styles.buttonDisabled];
@@ -57,24 +82,6 @@ export default function PrimaryButton({
 }
 
 const styles = StyleSheet.create({
-  button1Position: {
-    position: "absolute",
-    left: 0,
-    right: 0,
-    bottom: hp(104), // 40px (bottom) + 48px (button height) + 16px (spacing) = 104px
-    marginHorizontal: theme.spacing.lg,
-    height: safeHp(48, 44, 52),
-    borderRadius: theme.borderRadius.md,
-  },
-  button2Position: {
-    position: "absolute",
-    left: 0,
-    right: 0,
-    bottom: hp(40), // Exatamente 40px do bottom
-    marginHorizontal: theme.spacing.lg,
-    height: safeHp(48, 44, 52),
-    borderRadius: theme.borderRadius.md,
-  },
   buttonDisabled: {
     opacity: 0.5,
   },
