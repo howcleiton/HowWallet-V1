@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import * as Clipboard from "expo-clipboard";
-import { Ionicons } from "@expo/vector-icons";
+import { KeyRound, Copy, CheckCircle } from "lucide-react-native";
 import { theme } from "../utils/theme";
 import { wp, hp } from "../utils/responsive";
 import BackButton from "../components/BackButton";
@@ -80,8 +80,7 @@ export default function SeedPhraseScreen({
           {/* Header */}
           <View style={styles.header}>
             <View style={styles.titleContainer}>
-              <Ionicons
-                name="key"
+              <KeyRound
                 size={wp(28)}
                 color={theme.colors.primary}
                 style={styles.keyIcon}
@@ -110,12 +109,19 @@ export default function SeedPhraseScreen({
             activeOpacity={0.7}
             disabled={hasCopied}
           >
-            <Ionicons
-              name={hasCopied ? "checkmark-circle" : "copy"}
-              size={wp(20)}
-              color={theme.colors.primary}
-              style={styles.copyIcon}
-            />
+            {hasCopied ? (
+              <CheckCircle
+                size={wp(20)}
+                color={theme.colors.primary}
+                style={styles.copyIcon}
+              />
+            ) : (
+              <Copy
+                size={wp(20)}
+                color={theme.colors.primary}
+                style={styles.copyIcon}
+              />
+            )}
             <Text style={[styles.copyText, hasCopied && styles.copiedText]}>
               {hasCopied
                 ? "Frase copiada!"

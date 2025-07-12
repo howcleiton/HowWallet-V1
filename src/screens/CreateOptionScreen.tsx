@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, StatusBar } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import { LockKeyhole, Fingerprint } from "lucide-react-native";
 import LottieView from "lottie-react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { theme } from "../utils/theme";
@@ -79,8 +79,7 @@ export default function CreateOptionScreen({
         {/* First Section - Security */}
         <View style={[styles.sectionContainer, styles.firstSection]}>
           <View style={styles.titleContainer}>
-            <Ionicons
-              name="lock-closed"
+            <LockKeyhole
               size={wp(18)}
               color={theme.colors.primary}
               style={styles.titleIcon}
@@ -96,8 +95,7 @@ export default function CreateOptionScreen({
         {/* Second Section - Recovery */}
         <View style={[styles.sectionContainer, styles.secondSection]}>
           <View style={styles.titleContainer}>
-            <Ionicons
-              name="finger-print"
+            <Fingerprint
               size={wp(18)}
               color={theme.colors.primary}
               style={styles.titleIcon}
